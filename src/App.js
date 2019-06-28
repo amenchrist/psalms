@@ -8,13 +8,19 @@ import AddSong from './Components/AddSong';
 import SignInForm from './Components/SignInForm';
 
 function App() {
-  // let height = {
-  //   height: '100vh'
-  // };
+  let style = {
+    "max-height": "100vh",
+    "overflow": "hidden",
+    height: "100vh"
+  };
+  let hidden = {
+    display: "none"
+  };
+  
   return (
-    <div className='ba w-100 flex flex-column justify-between' style={{height: "100vh"}}>
+    <div className='ba w-100 flex flex-column justify-between' style={style}>
       <div className='ba flex justify-end'>
-        <div className='ba w-20'>
+        <div className='ba w5'>
           <Nav />
         </div>
       </div>
@@ -28,12 +34,12 @@ function App() {
           <SearchField />
         </div>
       </div>
-      <div className='ba w-100 flex justify-center'>
+      <div className='ba w-100 flex justify-center b--red' style={{height:"70%"}} >
         <div className='ba'>
           <ResultsList />
         </div>
       </div>
-      <div className='ba w-100'>
+      <div className='ba w-100' style={hidden}>
         <div className='ba flex justify-center'>
           <SignInForm />
           <AddSong />
