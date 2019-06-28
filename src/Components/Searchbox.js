@@ -4,7 +4,7 @@ const SearchField = () => {
   return (
     <div>
       <form>
-        <input type="text"></input>
+        <input type="text" className='f3'></input>
       </form>
     </div>
   );
