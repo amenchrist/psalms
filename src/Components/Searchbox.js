@@ -1,13 +1,21 @@
 import React from 'react';
 
-const SearchField = () => {
+const SearchBox = ({searchLyrics, display}) => {
+  const style = {
+    display: display
+}
   return (
-    <div>
+    <div style={style} className='ba'>
       <form>
-        <input type="text" className='f3'></input>
+        <input type="text" 
+        className='f3' 
+        placeholder='Search lyrics'
+        onChange={searchLyrics}
+        autoFocus
+        ></input>
       </form>
     </div>
   );
 }
 
-export default SearchField;
+export default SearchBox;

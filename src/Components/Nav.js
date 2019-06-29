@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Nav = () => {
+const Nav = ({toggleDisplay}) => {
     return (
         <div>
             <nav className='flex justify-around'>
-                <h4>Add Song</h4>
-                <h4>Sign In</h4>
-                <h4>Dashboard</h4>
+                <button id='addSong' onClick={toggleDisplay}>Add Song</button>
+                <button id='signIn' onClick={toggleDisplay}>Sign In</button>
+                <button id='dashBoard' onClick={toggleDisplay}>Dashboard</button>                
             </nav>
         </div>
     )

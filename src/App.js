@@ -1,58 +1,149 @@
 import React from 'react';
 //import Logo from './Components/Logo';
-import SearchField from './Components/Searchbox';
+import SearchBox from './Components/Searchbox';
 import Header from './Components/Header';
 import Nav from './Components/Nav';
 import ResultsList from './Components/ResultsList';
 import AddSong from './Components/AddSong';
 import SignInForm from './Components/SignInForm';
+import teevo from './Components/teevo';
 
-function App() {
-  let style = {
-    "max-height": "100vh",
-    "overflow": "hidden",
-    height: "100vh"
-  };
-  let hidden = {
-    display: "none"
-  };
-  
-  return (
-    <div className='ba w-100 flex flex-column justify-between' style={style}>
-      <div className='ba flex justify-end'>
-        <div className='ba w5'>
-          <Nav />
+class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      searchQuery: '',
+      results: [],
+      signInDisplay: 'none',
+      addSongDisplay: 'none',
+      dashboardDisplay: 'none',
+      resultsListDisplay: 'block',
+      searchBoxDisplay: 'block'
+    };
+  }
+
+  toggleDisplay = (e) => {
+    //console.log(e.target.id);
+    switch (e.target.id) {
+      case 'addSong':
+          this.setState({
+            searchQuery: '',
+            results: [],
+            signInDisplay: 'none',
+            addSongDisplay: 'inline-block',
+            dashboardDisplay: 'none',
+            resultsListDisplay: 'none',
+            searchBoxDisplay: 'none',
+            route: 'home'
+          });
+        break;
+      case 'signIn':
+          this.setState({
+            searchQuery: '',
+            results: [],
+            signInDisplay: 'inline-block',
+            addSongDisplay: 'none',
+            dashboardDisplay: 'none',
+            resultsListDisplay: 'none',
+            searchBoxDisplay: 'none'
+          });
+          break;
+      case 'dashBoard':
+          this.setState({
+            signInDisplay: 'none',
+            addSongDisplay: 'none',
+            dashboardDisplay: 'inline-block',
+            resultsListDisplay: 'none',
+            searchBoxDisplay: 'none',
+            route: 'dashboard'
+          });
+          break;
+      case 'psalms':
+          //console.log('working');
+          this.setState({
+            searchQuery: '',
+            results: [],
+            signInDisplay: 'none',
+            addSongDisplay: 'none',
+            dashboardDisplay: 'none',
+            resultsListDisplay: 'block',
+            searchBoxDisplay: 'block',
+            route: 'home'
+          });
+        break;
+      default: 
+        this.setState({
+        signInDisplay: 'none',
+        addSongDisplay: 'none',
+        dashboardDisplay: 'none',
+        resultsListDisplay: 'block',
+        searchBoxDisplay: 'block'
+      });
+    }
+    
+  }
+
+  searchLyrics = (event) => {
+    if(event.target.value !== '') {
+      let resultsArray = teevo.filter((psalmObject) => {
+        return Object.keys(psalmObject).map(key => psalmObject[key].toLowerCase().includes(event.target.value.toLowerCase())).includes(true)
+        })
+        this.setState({searchQuery: event.target.value.toLowerCase(), results: resultsArray});
+    } else {
+      this.setState({searchQuery: event.target.value.toLowerCase(), results: []});
+    }
+  }
+
+  render() {
+    //console.log('App', this.state.results, this.state.searchQuery);
+
+    let style = {
+      maxHeight: "100vh",
+      overflow: "hidden",
+      height: "100vh"
+    };
+    // let hidden = {
+    //   display: "none"
+    // };
+    
+    return (
+      <div className=' w-100 flex flex-column justify-between' style={style}>
+        <div className=' flex justify-end'>
+          <div className='w5'>
+            <Nav toggleDisplay={this.toggleDisplay} />
+          </div>
         </div>
-      </div>
-      <div className='ba w-100 flex justify-center'>
-        <div className='ba'>
-          <Header />
+        <div className=' w-100 flex justify-center'>
+          <div className='ba'>
+            <Header toggleDisplay={this.toggleDisplay}/>
+          </div>
         </div>
-      </div>
-      <div className='ba w-100 flex justify-center'>
-        <div className='ba'>
-          <SearchField />
+        <div className=' w-100 flex justify-center'>
+          <div>
+            <SearchBox searchLyrics={this.searchLyrics} display={this.state.searchBoxDisplay} searchfield={this.state.searchfield}/>
+          </div>
         </div>
-      </div>
-      <div className='ba w-100 flex justify-center b--red' style={{height:"70%"}} >
-        <div className='ba'>
-          <ResultsList />
+        <div className=' w-100 flex justify-center b--red' style={{height:"55%"}} >
+          <div>
+            <ResultsList list={this.state.results} display={this.state.resultsListDisplay}/>
+            <AddSong display={this.state.addSongDisplay}/>
+            <SignInForm display={this.state.signInDisplay}/>
+          </div>
         </div>
-      </div>
-      <div className='ba w-100' style={hidden}>
-        <div className='ba flex justify-center'>
-          <SignInForm />
-          <AddSong />
+        <div className=' w-100'>
+          <div className=' flex justify-center'>
+            {/* <AddSong display={this.state.addSongDisplay}/>
+            <SignInForm display={this.state.signInDisplay}/> */}
+          </div>
         </div>
-      </div>
-      <div className='ba w-100 flex justify-center'>
-        <div className='ba'>
-          <h3>All lyrics are a property of their owners.</h3>
+        <div className=' w-100 flex justify-center'>
+          <div className=''>
+            <h3>All lyrics are a property of their owners.</h3>
+          </div>
         </div>
+        
       </div>
-      
-    </div>
-  );
+    );
+  }
 }
-
 export default App;

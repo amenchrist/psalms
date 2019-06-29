@@ -1,8 +1,11 @@
 import React from 'react';
 
-const AddSong = () => {
+const AddSong = ({display}) => {
+    const style = {
+        display: display
+    }
     return (
-        <div>
+        <div style={style}>
             <form>
                 <input type="text" className='f3' placeholder="Title"></input><br/>
                 <input type="text" className='f3' placeholder="Artist"></input><br/>
