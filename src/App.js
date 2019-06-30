@@ -7,7 +7,6 @@ import ResultsList from './Components/ResultsList';
 import AddSong from './Components/AddSong';
 import SignInForm from './Components/SignInForm';
 import SignUpForm from './Components/SignUpForm';
-import teevo from './Components/teevo';
 
 class App extends React.Component {
   constructor() {
@@ -114,11 +113,17 @@ class App extends React.Component {
   }
 
   searchLyrics = (event) => {
-    if(event.target.value !== '') {
-      let resultsArray = teevo.filter((psalmObject) => {
-        return Object.keys(psalmObject).map(key => psalmObject[key].toLowerCase().includes(event.target.value.toLowerCase())).includes(true)
+    this.setState({searchQuery: event.target.value.toLowerCase()})
+    if(event.target.value.length > 2) {
+      fetch('http://localhost:3001/psalms', {
+        method: 'POST',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({
+          searchQuery: event.target.value
         })
-        this.setState({searchQuery: event.target.value.toLowerCase(), results: resultsArray});
+      })
+      .then(response => response.json())
+      .then(data => this.setState({results: data}));
     } else {
       this.setState({searchQuery: event.target.value.toLowerCase(), results: []});
     }
@@ -163,7 +168,7 @@ class App extends React.Component {
         </div>
         <div className=' w-100 flex justify-center'>
           <div className=''>
-            <h3>All lyrics are a property of their owners.</h3>
+            <h3>Contact Us.</h3>
           </div>
         </div>
         
